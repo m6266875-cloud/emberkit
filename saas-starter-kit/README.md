@@ -95,3 +95,4 @@ supabase/schema.sql        → Database schema to run in Supabase
 
 ---
 Built with Next.js, Supabase, and Stripe.
+
