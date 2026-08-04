@@ -20,12 +20,11 @@ export function createClient() {
           }[]
         ) {
           try {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
-            );
+            cookiesToSet.forEach(({ name, value, options }) => {
+              cookieStore.set(name, value, options);
+            });
           } catch {
-            // Called from a Server Component — safe to ignore
-            // if you have middleware refreshing sessions.
+            // Server Component
           }
         },
       },
