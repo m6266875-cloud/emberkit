@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { ThemeProvider } from '@/components/ThemeProvider';
 
 export const metadata: Metadata = {
   title: 'Emberkit — Ship your SaaS this weekend',
@@ -14,6 +15,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased text-gray-900 bg-white">{children}</body>
+       <ThemeProvider>
+      {children}
+    </ThemeProvider>
     </html>
   );
 }
