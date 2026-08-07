@@ -14,10 +14,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="antialiased text-gray-900 bg-white">{children}</body>
-       <ThemeProvider>
+    <body className="antialiased text-gray-900 bg-white">
+      <ThemeProvider>
       {children}
-    </ThemeProvider>
+      </ThemeProvider>
+      </body>
     </html>
   );
 }
