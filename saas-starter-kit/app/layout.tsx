@@ -14,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-    <body className="antialiased text-gray-900 bg-white">
+    <body className="antialiased bg-white text-gray-900 dark:bg-gray-950 dark:text-white transition-colors">
       <ThemeProvider>
       {children}
       </ThemeProvider>
