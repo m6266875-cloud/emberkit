@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import SignOutButton from '@/components/SignOutButton';
 import UpgradeButton from '@/components/UpgradeButton';
+import ThemeToggle from '@/components/ThemeToggle';
 
 export default async function DashboardPage() {
   const supabase = createClient();
@@ -18,6 +19,7 @@ export default async function DashboardPage() {
       <nav className="border-b border-gray-200 px-6 py-4 flex justify-between items-center">
         <span className="font-bold">Emberkit</span>
         <div className="flex items-center gap-4">
+          <ThemeToggle />
           <span className="text-sm text-gray-500">{user.email}</span>
           <SignOutButton />
         </div>
