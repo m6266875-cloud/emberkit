@@ -19,10 +19,15 @@ export default async function DashboardPage() {
       <nav className="border-b border-gray-200 px-6 py-4 flex justify-between items-center">
         <span className="font-bold">Emberkit</span>
         <div className="flex items-center gap-4">
-          <ThemeToggle />
-          <span className="text-sm text-gray-500">{user.email}</span>
-          <SignOutButton />
-        </div>
+         <ThemeToggle />
+         <a href="/profile"className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+         Profile
+         </a>
+         <span className="text-sm text-gray-500">
+         {user.email}
+         </span>
+         <SignOutButton />
+       </div>
       </nav>
 
       <div className="max-w-4xl mx-auto px-6 py-12">
