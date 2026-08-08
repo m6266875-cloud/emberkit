@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import SignOutButton from '@/components/SignOutButton';
 import UpgradeButton from '@/components/UpgradeButton';
 import ThemeToggle from '@/components/ThemeToggle';
+import link from 'next/link';
 
 export default async function DashboardPage() {
   const supabase = createClient();
@@ -23,6 +24,9 @@ export default async function DashboardPage() {
          <a href="/profile"className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
          Profile
          </a>
+          <a href="/settings" className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+            Settings
+          </a>
          <span className="text-sm text-gray-500">
          {user.email}
          </span>
