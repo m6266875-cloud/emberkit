@@ -4,4 +4,77 @@
 
 html {
   scroll-behavior: smooth;
+  /* Emberkit animations */
+
+@keyframes ember-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ember-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes ember-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.6;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes ember-shimmer {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.animate-ember-fade-up {
+  animation: ember-fade-up 0.8s ease-out both;
+}
+
+.animate-ember-float {
+  animation: ember-float 5s ease-in-out infinite;
+}
+
+.animate-ember-pulse {
+  animation: ember-pulse 4s ease-in-out infinite;
+}
+
+.animate-ember-shimmer {
+  animation: ember-shimmer 2s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 }
