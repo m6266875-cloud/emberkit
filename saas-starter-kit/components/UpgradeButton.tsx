@@ -5,15 +5,11 @@ import { useState } from 'react';
 export default function UpgradeButton() {
   const [loading, setLoading] = useState(false);
 
-  async function handleUpgrade() {
+  function handleUpgrade() {
     setLoading(true);
-    const res = await fetch('/api/stripe/checkout', { method: 'POST' });
-    const data = await res.json();
-    setLoading(false);
 
-    if (data.url) {
-      window.location.href = data.url;
-    }
+    window.location.href =
+      'https://hudadigi.lemonsqueezy.com/checkout/buy/b551302a-0970-42a4-b47a-3835aa6fe93e';
   }
 
   return (
