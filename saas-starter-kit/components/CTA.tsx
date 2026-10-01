@@ -1,27 +1,43 @@
 import Link from 'next/link';
+import { ArrowRight, ArrowUpRight, Flame } from 'lucide-react';
 
 export default function CTA() {
   return (
-    <section className="px-6 py-24">
-      <div className="relative mx-auto max-w-5xl overflow-hidden rounded-lg border border-ink-border bg-ink px-8 py-16 text-center sm:px-16">
-        <div className="absolute left-1/2 top-0 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-ember-500/20 blur-[100px]" />
-
-        <div className="relative">
-          <h2 className="mx-auto max-w-xl font-display text-3xl font-semibold text-paper sm:text-5xl">
-            Your next SaaS starts here.
-          </h2>
-
-          <p className="mx-auto mt-5 max-w-lg text-ink-muted">
-            Stop rebuilding authentication, dashboards and settings from
-            scratch. Start with Emberkit.
-          </p>
-
-          <Link
-            href="/signup"
-            className="mt-9 inline-flex rounded bg-ember-500 px-7 py-3.5 font-semibold text-ink transition hover:bg-ember-400"
+    <section className="pb-20 sm:pb-24">
+      <div className="container-wide">
+        <div className="relative overflow-hidden rounded-3xl bg-[#1e2520] px-7 py-14 text-[#f8f9f5] sm:px-12 sm:py-16">
+          <div className="relative z-10 max-w-2xl">
+            <p className="font-mono text-[10px] uppercase tracking-[.15em] text-[#a7b1a6]">
+              Every great thing starts somewhere
+            </p>
+            <h2 className="mt-5 text-4xl font-medium leading-[1.12] tracking-[-.05em] sm:text-5xl">
+              Make room for your
+              <br />
+              <span className="text-[#f79573]">next big idea.</span>
+            </h2>
+            <p className="mt-5 max-w-sm text-sm leading-7 text-[#a7b1a6]">
+              The foundation is here. The rest is yours to build.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href="/signup" className="btn-accent">
+                Let’s start building
+                <ArrowRight size={16} />
+              </Link>
+              <Link
+                href="/preview"
+                className="btn border border-white/20 text-[#f8f9f5] hover:bg-white/5"
+              >
+                Explore first
+                <ArrowUpRight size={16} />
+              </Link>
+            </div>
+          </div>
+          <div
+            aria-hidden="true"
+            className="auth-orbit absolute -right-12 top-1/2 hidden h-64 w-64 -translate-y-1/2 items-center justify-center rounded-full opacity-80 md:flex lg:right-20"
           >
-            Get Emberkit
-          </Link>
+            <Flame size={105} strokeWidth={1} className="text-[#f79573]" />
+          </div>
         </div>
       </div>
     </section>

@@ -1,17 +1,22 @@
 'use client';
-
-import { useTheme } from './ThemeProvider';
+import { useHydrated } from '@/lib/use-hydrated';
+import { useTheme } from 'next-themes';
+import { Moon, Sun } from 'lucide-react';
 
 export default function ThemeToggle() {
-  const { theme, toggleTheme } = useTheme();
-
+  const hydrated = useHydrated();
+  const { resolvedTheme, setTheme } = useTheme();
   return (
     <button
-      onClick={toggleTheme}
-      aria-label="Toggle color theme"
-      className="flex h-9 w-9 items-center justify-center rounded border border-ink-border font-mono text-xs text-ink-muted transition hover:border-ink-faint hover:text-ink dark:hover:text-paper"
+      type="button"
+      className="icon-button"
+      disabled={!hydrated}
+      aria-label="Switch color theme"
+      title="Switch color theme"
+      onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
     >
-      {theme === 'light' ? '◐' : '◑'}
+      <Moon size={16} className="dark:hidden" />
+      <Sun size={16} className="hidden dark:block" />
     </button>
   );
 }

@@ -1,155 +1,113 @@
 'use client';
-
 import { useState } from 'react';
+import { useHydrated } from '@/lib/use-hydrated';
 import { useRouter } from 'next/navigation';
-import { createClient } from '@/lib/supabase/client';
-
-interface ProfileFormProps {
-  userId: string;
-  email: string;
-  initialFullName: string;
-  initialUsername: string;
-  initialWebsite: string;
-}
+import { Check, LoaderCircle } from 'lucide-react';
+import Notice from '@/components/Notice';
+import { apiFetch } from '@/lib/api-client';
 
 export default function ProfileForm({
-  userId,
   email,
-  initialFullName,
+  initialName,
   initialUsername,
   initialWebsite,
-}: ProfileFormProps) {
+}: {
+  email: string;
+  initialName: string;
+  initialUsername: string | null;
+  initialWebsite: string | null;
+}) {
   const router = useRouter();
-
-  const [fullName, setFullName] = useState(initialFullName || '');
+  const hydrated = useHydrated();
+  const [name, setName] = useState(initialName);
   const [username, setUsername] = useState(initialUsername || '');
   const [website, setWebsite] = useState(initialWebsite || '');
-
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    setLoading(true);
-    setMessage('');
-
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState('');
+  const [saved, setSaved] = useState(false);
+  async function submit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setPending(true);
+    setError('');
+    setSaved(false);
     try {
-      const supabase = createClient();
-
-      const { error } = await supabase
-        .from('profiles')
-        .upsert(
-          {
-            id: userId,
-            full_name: fullName.trim(),
-            username: username.trim(),
-            website: website.trim(),
-          },
-          {
-            onConflict: 'id',
-          }
-        );
-
-      if (error) {
-        console.error('Profile update error:', error);
-        setMessage(error.message);
-        return;
-      }
-
-      setMessage('Profile updated successfully!');
-
-      // Refresh the Server Component so the updated
-      // profile information appears immediately.
+      await apiFetch('/api/profile', 'PATCH', { name, username, website });
+      setSaved(true);
       router.refresh();
-    } catch (error) {
-      console.error('Unexpected error:', error);
-      setMessage('Something went wrong. Please try again.');
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Unable to update your profile.');
     } finally {
-      setLoading(false);
+      setPending(false);
     }
   }
-
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
-
-      {/* Email */}
-      <div>
-        <label className="mb-1.5 block text-sm font-medium text-ink dark:text-paper">
-          Email
-        </label>
-        <input
-          type="email"
-          value={email}
-          disabled
-          className="w-full cursor-not-allowed rounded border border-ink-border bg-ink-surface/60 px-4 py-2.5 text-ink-muted dark:bg-ink"
-        />
+    <form method="post" onSubmit={submit} className="space-y-5">
+      <fieldset disabled={pending || !hydrated} className="space-y-5">
+        <div>
+          <label htmlFor="profile-name" className="field-label">
+            Full name
+          </label>
+          <input
+            id="profile-name"
+            className="field"
+            required
+            maxLength={80}
+            autoComplete="name"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="profile-email" className="field-label">
+            Email address
+          </label>
+          <input id="profile-email" className="field" type="email" value={email} disabled />
+          <p className="field-help">
+            Your account’s sign-in address. Email changes are not enabled.
+          </p>
+        </div>
+        <div>
+          <label htmlFor="profile-username" className="field-label">
+            Username <span className="font-normal text-muted">(optional)</span>
+          </label>
+          <div className="relative">
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-muted">@</span>
+            <input
+              id="profile-username"
+              className="field pl-9"
+              maxLength={30}
+              placeholder="yourname"
+              autoComplete="username"
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
+            />
+          </div>
+          <p className="field-help">3–30 letters, numbers, or underscores.</p>
+        </div>
+        <div>
+          <label htmlFor="profile-website" className="field-label">
+            Website <span className="font-normal text-muted">(optional)</span>
+          </label>
+          <input
+            id="profile-website"
+            className="field"
+            type="url"
+            maxLength={300}
+            placeholder="https://your-corner-of-the-internet.com"
+            autoComplete="url"
+            value={website}
+            onChange={(event) => setWebsite(event.target.value)}
+          />
+        </div>
+      </fieldset>
+      {error && <Notice type="error">{error}</Notice>}
+      {saved && <Notice type="success">Your profile is looking good. Changes saved.</Notice>}
+      <div className="border-t border-line pt-5">
+        <button type="submit" disabled={pending || !hydrated} className="btn-primary">
+          {pending ? <LoaderCircle size={15} className="spinner" /> : <Check size={15} />}
+          {pending ? 'Saving your details…' : 'Save your profile'}
+        </button>
       </div>
-
-      {/* Full Name */}
-      <div>
-        <label className="mb-1.5 block text-sm font-medium text-ink dark:text-paper">
-          Full Name
-        </label>
-        <input
-          type="text"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-          placeholder="Enter your full name"
-          className="w-full rounded border border-ink-border bg-paper px-4 py-2.5 text-ink outline-none transition focus:border-ember-500 focus:ring-1 focus:ring-ember-500 dark:bg-ink dark:text-paper"
-        />
-      </div>
-
-      {/* Username */}
-      <div>
-        <label className="mb-1.5 block text-sm font-medium text-ink dark:text-paper">
-          Username
-        </label>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Choose a username"
-          className="w-full rounded border border-ink-border bg-paper px-4 py-2.5 text-ink outline-none transition focus:border-ember-500 focus:ring-1 focus:ring-ember-500 dark:bg-ink dark:text-paper"
-        />
-      </div>
-
-      {/* Website */}
-      <div>
-        <label className="mb-1.5 block text-sm font-medium text-ink dark:text-paper">
-          Website
-        </label>
-        <input
-          type="url"
-          value={website}
-          onChange={(e) => setWebsite(e.target.value)}
-          placeholder="https://yourwebsite.com"
-          className="w-full rounded border border-ink-border bg-paper px-4 py-2.5 text-ink outline-none transition focus:border-ember-500 focus:ring-1 focus:ring-ember-500 dark:bg-ink dark:text-paper"
-        />
-      </div>
-
-      {/* Save Button */}
-      <button
-        type="submit"
-        disabled={loading}
-        className="w-full rounded bg-ember-500 px-4 py-2.5 font-semibold text-ink transition hover:bg-ember-400 disabled:cursor-not-allowed disabled:opacity-60"
-      >
-        {loading ? 'Saving…' : 'Save changes'}
-      </button>
-
-      {/* Message */}
-      {message && (
-        <p
-          className={`text-sm ${
-            message.includes('successfully')
-              ? 'text-emerald-500'
-              : 'text-red-500'
-          }`}
-        >
-          {message}
-        </p>
-      )}
-
     </form>
   );
 }

@@ -1,31 +1,62 @@
 {
-  "name": "saas-starter-kit",
-  "version": "1.0.0",
+  "name": "emberkit-postgres",
+  "version": "2.0.0",
   "private": true,
+  "engines": {
+    "node": ">=22.19.0"
+  },
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "next dev --hostname 0.0.0.0",
+    "build": "prisma generate && next build --webpack",
+    "start": "next start --hostname 0.0.0.0",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "dotenv -e .env.local -- playwright test",
+    "postinstall": "prisma generate",
+    "db:generate": "prisma generate",
+    "db:migrate": "dotenv -e .env.local -- prisma migrate dev",
+    "db:deploy": "dotenv -e .env.local -- prisma migrate deploy",
+    "db:studio": "dotenv -e .env.local -- prisma studio",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
-    "@supabase/ssr": "^0.5.1",
-    "@supabase/supabase-js": "^2.45.4",
-    "next": "14.2.5",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "stripe": "^16.8.0",
-    "@stripe/stripe-js": "^4.4.0"
+    "@fontsource-variable/dm-sans": "5.3.0",
+    "@fontsource/dm-mono": "5.3.0",
+    "@prisma/adapter-pg": "^6.19.3",
+    "@prisma/client": "6.19.3",
+    "bcryptjs": "3.0.3",
+    "lucide-react": "1.49.0",
+    "next": "16.3.8",
+    "next-auth": "4.24.15",
+    "next-themes": "^0.4.6",
+    "pg": "^8.23.1",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "server-only": "^0.0.1",
+    "stripe": "23.0.0",
+    "zod": "4.6.5"
   },
   "devDependencies": {
-    "typescript": "^5.5.4",
-    "@types/node": "^20.14.15",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
+    "@playwright/test": "1.63.0",
+    "@types/node": "^22.0.0",
+    "@types/pg": "^8.23.1",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
     "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.41",
-    "tailwindcss": "^3.4.10",
-    "eslint": "^8.57.0",
-    "eslint-config-next": "14.2.5"
+    "dotenv-cli": "11.0.0",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "16.3.8",
+    "postcss": "^8.5.0",
+    "prettier": "^3.9.9",
+    "prisma": "6.19.3",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.9.3",
+    "vitest": "5.0.3"
+  },
+  "overrides": {
+    "deepmerge-ts": "8.0.2"
   }
 }

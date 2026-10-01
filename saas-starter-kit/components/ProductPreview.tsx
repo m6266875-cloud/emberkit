@@ -1,85 +1,133 @@
+import {
+  Activity,
+  ArrowUpRight,
+  CircleCheck,
+  Code2,
+  Folder,
+  FolderKanban,
+  LayoutDashboard,
+  Settings,
+  UserRound,
+} from 'lucide-react';
+import StatusBadge from '@/components/StatusBadge';
+
 export default function ProductPreview() {
   return (
-    <section className="px-6 pb-24">
-      <div className="mx-auto max-w-5xl">
-        <div className="overflow-hidden rounded-lg border border-ink-border bg-ink-soft shadow-2xl shadow-ink/40">
-
-          {/* Window chrome */}
-          <div className="flex items-center gap-2 border-b border-ink-border px-4 py-3">
-            <div className="flex gap-1.5">
-              <div className="h-2.5 w-2.5 rounded-full bg-ink-border" />
-              <div className="h-2.5 w-2.5 rounded-full bg-ink-border" />
-              <div className="h-2.5 w-2.5 rounded-full bg-ink-border" />
+    <div
+      className="overflow-hidden rounded-2xl border border-line bg-surface shadow-float"
+      aria-label="Illustrative workspace preview with sample data"
+    >
+      <div className="flex h-10 items-center justify-between border-b border-line bg-canvas px-4">
+        <div className="flex gap-1.5" aria-hidden="true">
+          <span className="h-2 w-2 rounded-full bg-[#efaaa0]" />
+          <span className="h-2 w-2 rounded-full bg-[#eecb87]" />
+          <span className="h-2 w-2 rounded-full bg-[#a4c9a6]" />
+        </div>
+        <span className="flex items-center gap-1.5 font-mono text-[8px] text-muted">
+          <Code2 size={10} />
+          emberkit / workspace
+        </span>
+        <span className="w-8" />
+      </div>
+      <div className="flex">
+        <div className="hidden w-[108px] shrink-0 flex-col border-r border-line bg-canvas px-3 pb-4 pt-5 sm:flex">
+          <span className="mb-5 text-[13px] font-bold tracking-tight">
+            emberkit<span className="text-ember">.</span>
+          </span>
+          <div className="space-y-1.5">
+            {[
+              { Icon: LayoutDashboard, label: 'Overview' },
+              { Icon: FolderKanban, label: 'Projects' },
+              { Icon: UserRound, label: 'Profile' },
+              { Icon: Settings, label: 'Settings' },
+            ].map(({ Icon, label }, index) => (
+              <div
+                key={label}
+                className={`flex items-center gap-1.5 rounded-lg px-2 py-2 text-[8px] ${index === 0 ? 'bg-surface font-medium text-foreground shadow-sm' : 'text-muted'}`}
+              >
+                <Icon size={10} />
+                {label}
+              </div>
+            ))}
+          </div>
+          <div className="mt-auto pt-16 font-mono text-[7px] text-muted">PERSONAL WORKSPACE</div>
+        </div>
+        <div className="min-w-0 flex-1 p-5 sm:p-6">
+          <div className="flex items-center justify-between">
+            <p className="font-mono text-[7px] uppercase tracking-wider text-muted">
+              Workspace overview
+            </p>
+            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-soft text-[8px] font-semibold">
+              AM
+            </span>
+          </div>
+          <h2 className="mt-3 text-xl font-semibold tracking-[-.04em]">A good day to build.</h2>
+          <p className="mt-1 text-[9px] text-muted">Here’s where your ideas stand.</p>
+          <div className="mt-5 grid grid-cols-3 gap-2">
+            {[
+              { label: 'Projects', value: '8', Icon: Folder },
+              { label: 'In progress', value: '3', Icon: Activity },
+              { label: 'Completed', value: '5', Icon: CircleCheck },
+            ].map(({ label, value, Icon }) => (
+              <div key={label} className="rounded-xl border border-line bg-canvas p-3">
+                <div className="flex items-center justify-between text-muted">
+                  <span className="text-[8px]">{label}</span>
+                  <Icon size={10} />
+                </div>
+                <p className="mt-3 text-[23px] font-semibold leading-none tracking-tight">
+                  {value}
+                </p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 rounded-xl border border-line p-3.5">
+            <div className="flex items-center justify-between">
+              <p className="text-[10px] font-semibold">Recent projects</p>
+              <ArrowUpRight size={12} className="text-muted" />
             </div>
-            <div className="ml-3 flex-1 rounded bg-ink px-3 py-1.5 font-mono text-xs text-ink-faint">
-              app.yoursaas.com/dashboard
+            <div className="mt-1.5">
+              {[
+                {
+                  name: 'Orbit — your next SaaS',
+                  status: 'in_progress' as const,
+                  color: 'bg-violet-100 text-violet-700',
+                },
+                {
+                  name: 'Studio website',
+                  status: 'completed' as const,
+                  color: 'bg-blue-100 text-blue-700',
+                },
+                {
+                  name: 'The launch plan',
+                  status: 'completed' as const,
+                  color: 'bg-orange-100 text-orange-700',
+                },
+              ].map((project) => (
+                <div
+                  key={project.name}
+                  className="flex items-center justify-between gap-2 border-t border-line py-3 first:border-0"
+                >
+                  <span className="flex items-center gap-2 text-[9px] font-medium">
+                    <span
+                      className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-lg ${project.color}`}
+                    >
+                      <FolderKanban size={12} />
+                    </span>
+                    {project.name}
+                  </span>
+                  <span className="scale-[.75] origin-right">
+                    <StatusBadge status={project.status} />
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
-
-          <div className="grid min-h-[420px] md:grid-cols-[180px_1fr]">
-            {/* Sidebar */}
-            <aside className="hidden border-r border-ink-border p-4 md:block">
-              <div className="mb-8 flex items-center gap-2 px-2 font-display text-sm font-semibold text-paper">
-                <span className="flex h-6 w-6 items-center justify-center rounded bg-ember-500 font-mono text-xs text-ink">
-                  e
-                </span>
-                Emberkit
-              </div>
-
-              <div className="space-y-1 font-mono text-xs">
-                <div className="flex items-center gap-2 rounded border-l-2 border-ember-500 bg-ember-500/10 px-3 py-2 text-ember-400">
-                  dashboard
-                </div>
-                <div className="px-3 py-2 text-ink-faint">profile</div>
-                <div className="px-3 py-2 text-ink-faint">settings</div>
-              </div>
-            </aside>
-
-            {/* Content */}
-            <div className="p-6 sm:p-7">
-              <div className="mb-7">
-                <p className="font-mono text-xs text-ink-faint">dashboard</p>
-                <h3 className="mt-1 font-display text-xl font-semibold text-paper">
-                  Welcome back
-                </h3>
-              </div>
-
-              <div className="grid gap-px overflow-hidden rounded border border-ink-border bg-ink-border sm:grid-cols-3">
-                <div className="bg-ink-soft p-4">
-                  <p className="font-mono text-[11px] text-ink-faint">PLAN</p>
-                  <p className="mt-2 font-display text-xl font-semibold text-paper">Pro</p>
-                </div>
-                <div className="bg-ink-soft p-4">
-                  <p className="font-mono text-[11px] text-ink-faint">USAGE</p>
-                  <p className="mt-2 font-display text-xl font-semibold text-paper">72%</p>
-                </div>
-                <div className="bg-ink-soft p-4">
-                  <p className="font-mono text-[11px] text-ink-faint">PROJECTS</p>
-                  <p className="mt-2 font-display text-xl font-semibold text-paper">12</p>
-                </div>
-              </div>
-
-              <div className="mt-4 rounded border border-ink-border p-5">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-semibold text-paper">Build faster</p>
-                    <p className="mt-1 text-xs text-ink-faint">
-                      Everything you need to start your SaaS.
-                    </p>
-                  </div>
-                  <div className="hidden rounded bg-ember-500 px-3 py-1.5 font-mono text-xs font-semibold text-ink sm:block">
-                    Upgrade
-                  </div>
-                </div>
-
-                <div className="mt-5 h-1.5 overflow-hidden rounded-full bg-ink-border">
-                  <div className="h-full w-[72%] rounded-full bg-ember-500" />
-                </div>
-              </div>
-            </div>
-          </div>
+          <p className="mt-4 flex items-center gap-1.5 font-mono text-[7px] uppercase tracking-wider text-muted">
+            <span className="h-1 w-1 rounded-full bg-ember" />
+            UI PREVIEW · ILLUSTRATIVE SAMPLE DATA
+          </p>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
