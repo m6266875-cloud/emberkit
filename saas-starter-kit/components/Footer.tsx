@@ -1,40 +1,44 @@
 import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
+import Logo from '@/components/Logo';
 
 export default function Footer() {
   return (
-    <footer className="border-t border-ink-border/60 py-10">
-      <div className="mx-auto flex max-w-5xl flex-col gap-6 px-6 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <Link href="/" className="flex items-center gap-2 font-display font-semibold text-ink">
-            <span className="flex h-6 w-6 items-center justify-center rounded bg-ember-500 font-mono text-xs text-ink">
-              e
-            </span>
-            Emberkit
-          </Link>
-
-          <p className="mt-2 text-sm text-ink-muted">
-            Build your SaaS. Ship faster.
-          </p>
+    <footer className="border-t border-line py-12">
+      <div className="container-wide">
+        <div className="flex flex-col justify-between gap-8 sm:flex-row">
+          <div>
+            <Logo />
+            <p className="mt-4 max-w-xs text-sm leading-6 text-muted">
+              A little less boilerplate.
+              <br />A lot more possibility.
+            </p>
+          </div>
+          <div className="flex flex-wrap items-start gap-x-8 gap-y-3 text-sm text-muted">
+            <Link href="/guide" className="hover:text-foreground">
+              Documentation
+            </Link>
+            <Link href="/#faq" className="hover:text-foreground">
+              FAQs
+            </Link>
+            <a
+              href="https://github.com/m6266875-cloud/emberkit"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 hover:text-foreground"
+            >
+              GitHub
+              <ArrowUpRight size={14} />
+            </a>
+          </div>
         </div>
-
-        <div className="flex flex-wrap gap-5 font-mono text-xs text-ink-faint">
-          <a href="#features" className="hover:text-ink dark:hover:text-paper">
-            features
-          </a>
-          <a href="#pricing" className="hover:text-ink dark:hover:text-paper">
-            pricing
-          </a>
-          <a href="#faq" className="hover:text-ink dark:hover:text-paper">
-            faq
-          </a>
-          <Link href="/login" className="hover:text-ink dark:hover:text-paper">
-            login
-          </Link>
+        <div className="mt-12 flex flex-col justify-between gap-3 border-t border-line pt-6 font-mono text-[10px] text-muted sm:flex-row">
+          <span>© 2026 Emberkit. Built to be made yours.</span>
+          <span className="inline-flex items-center gap-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-ember" />
+            FROM FIRST SPARK TO SOMETHING REAL
+          </span>
         </div>
-      </div>
-
-      <div className="mx-auto mt-8 max-w-5xl border-t border-ink-border/60 px-6 pt-6 font-mono text-xs text-ink-faint">
-        © {new Date().getFullYear()} Emberkit. All rights reserved.
       </div>
     </footer>
   );

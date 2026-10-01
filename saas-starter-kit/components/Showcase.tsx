@@ -1,65 +1,60 @@
+import Link from 'next/link';
+import { ArrowUpRight, FolderKanban, LayoutDashboard, UserRound } from 'lucide-react';
+
 export default function Showcase() {
   return (
-    <section id="showcase" className="py-24">
-      <div className="mx-auto max-w-5xl px-6">
-        <div className="max-w-xl">
-          <h2 className="font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-            A foundation you can actually build on.
+    <section className="section-space">
+      <div className="container-wide">
+        <p className="eyebrow">03 / Not just a landing page</p>
+        <div className="mt-5 flex flex-col justify-between gap-5 md:flex-row md:items-end">
+          <h2 className="section-heading">
+            Every corner.
+            <br />
+            <span className="text-muted">Considered.</span>
           </h2>
-          <p className="mt-4 text-ink-muted">
-            Every part of Emberkit is designed to be understandable,
-            customizable and ready for your own SaaS idea.
-          </p>
+          <Link href="/preview" className="btn-secondary self-start">
+            Take it for a spin
+            <ArrowUpRight size={16} />
+          </Link>
         </div>
-
-        <div className="mt-14 grid gap-px overflow-hidden rounded border border-ink-border bg-ink-border md:grid-cols-2">
-          <div className="bg-paper p-8 dark:bg-ink">
-            <p className="font-mono text-xs text-ember-600 dark:text-ember-400">architecture</p>
-            <h3 className="mt-3 font-display text-xl font-semibold text-ink">
-              Modular by design
-            </h3>
-            <p className="mt-3 leading-7 text-ink-muted">
-              Keep your application organized with clear routes,
-              components and server-side utilities.
-            </p>
-
-            <div className="mt-7 rounded border border-ink-border bg-ink-soft p-5 font-mono text-sm text-ink-muted dark:bg-ink">
-              <div className="text-paper">app/</div>
-              <div className="pl-4">dashboard/</div>
-              <div className="pl-4">profile/</div>
-              <div className="pl-4">settings/</div>
-              <div className="text-paper">components/</div>
-              <div className="pl-4">ProfileForm.tsx</div>
-              <div className="pl-4">ThemeProvider.tsx</div>
-            </div>
-          </div>
-
-          <div className="bg-paper p-8 dark:bg-ink">
-            <p className="font-mono text-xs text-ember-600 dark:text-ember-400">deployment</p>
-            <h3 className="mt-3 font-display text-xl font-semibold text-ink">
-              Live in minutes
-            </h3>
-            <p className="mt-3 leading-7 text-ink-muted">
-              Connect your repository to Vercel, configure your environment
-              variables and launch your SaaS.
-            </p>
-
-            <div className="mt-7 rounded border border-ink-border p-5">
+        <div className="mt-10 grid gap-5 md:grid-cols-3">
+          {[
+            {
+              Icon: LayoutDashboard,
+              label: 'The overview',
+              title: 'See the bigger picture.',
+              text: 'Real project counts, recent activity, and your next steps—all in one place.',
+              href: '/preview',
+            },
+            {
+              Icon: FolderKanban,
+              label: 'The project space',
+              title: 'Keep ideas moving.',
+              text: 'Create, search, filter, and update projects. Move from draft to done, your way.',
+              href: '/preview?view=projects',
+            },
+            {
+              Icon: UserRound,
+              label: 'The personal touch',
+              title: 'Make yourself at home.',
+              text: 'A profile, appearance preferences, and account security that belong to you.',
+              href: '/preview?view=profile',
+            },
+          ].map(({ Icon, label, title, text, href }) => (
+            <Link
+              key={title}
+              href={href}
+              className="group panel p-7 transition hover:-translate-y-1 hover:border-ember/40"
+            >
               <div className="flex items-center justify-between">
-                <span className="font-mono text-xs text-ink-muted">
-                  production deployment
-                </span>
-                <span className="flex items-center gap-1.5 font-mono text-xs font-medium text-emerald-500">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                  live
-                </span>
+                <Icon size={25} strokeWidth={1.4} className="text-muted" />
+                <ArrowUpRight size={18} className="text-muted transition group-hover:text-ember" />
               </div>
-
-              <div className="mt-5 h-1.5 rounded-full bg-ink-border">
-                <div className="h-1.5 w-full rounded-full bg-emerald-500" />
-              </div>
-            </div>
-          </div>
+              <p className="eyebrow mt-9">{label}</p>
+              <h3 className="mt-3 text-xl font-semibold tracking-tight">{title}</h3>
+              <p className="mt-3 text-sm leading-7 text-muted">{text}</p>
+            </Link>
+          ))}
         </div>
       </div>
     </section>

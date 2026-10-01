@@ -1,7 +1,11 @@
 node_modules/
 .next/
-.env.local
-.env*.local
+.env*
+!.env.example
 .DS_Store
 *.log
-npm-debug.log*
+*.tsbuildinfo
+coverage/
+playwright-report/
+test-results/
+.arena/

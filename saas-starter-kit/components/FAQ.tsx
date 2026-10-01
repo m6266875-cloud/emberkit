@@ -1,52 +1,55 @@
+import { Plus } from 'lucide-react';
+
 const faqs = [
   {
-    question: 'What is Emberkit?',
+    question: 'What exactly is Emberkit?',
     answer:
-      'Emberkit is a SaaS starter kit that gives developers a ready-made foundation for building modern web applications.',
+      'A customizable SaaS source-code foundation. You get a landing page, account flows, a dashboard, projects, profiles, settings, and an optional subscription billing integration—not a hosted service that owns your data.',
   },
   {
-    question: 'What technologies does it use?',
+    question: 'Do I still need Supabase?',
     answer:
-      'The current stack includes Next.js, TypeScript, Supabase and Tailwind CSS, with deployment support for platforms such as Vercel.',
+      'No. This version uses standard PostgreSQL through Prisma. Accounts and projects live in your own database, with email/password sign-in handled by Auth.js (NextAuth). It starts with fresh accounts rather than importing old Supabase data.',
   },
   {
-    question: 'Can I customize Emberkit?',
+    question: 'Can I use a hosted PostgreSQL database?',
     answer:
-      'Yes. The source code is designed to be customized so you can replace the UI, database structure and product-specific functionality.',
+      'Yes. Neon and other PostgreSQL providers work with the same connection-string setup. Use a pooled connection for the app and a direct connection for migrations. The setup guide explains both.',
   },
   {
-    question: 'Can I use it for my own SaaS?',
+    question: 'How do payments work?',
     answer:
-      'Yes. Emberkit is designed as a foundation that you can adapt to your own SaaS idea.',
+      'Stripe subscriptions are optional. Add your own test keys and recurring Price ID, configure the signed webhook, and enable the Stripe customer portal. Without those keys, billing stays disabled and the rest of the workspace still works.',
   },
   {
-    question: 'Does Emberkit include payments?',
+    question: 'Can I change the design and extend the app?',
     answer:
-      'The architecture is designed to be subscription-ready. You can connect your preferred payment provider and use your own account and credentials.',
+      'Absolutely. The interface uses reusable components and Tailwind styles. Add your own models, change the colors and copy, or turn the starter into an entirely different product.',
   },
 ];
-
 export default function FAQ() {
   return (
-    <section id="faq" className="py-24">
-      <div className="mx-auto max-w-2xl px-6">
-        <h2 className="font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-          Questions, answered.
-        </h2>
-
-        <div className="mt-10 divide-y divide-ink-border border-t border-ink-border">
+    <section id="faq" className="border-t border-line py-20 sm:py-24">
+      <div className="container-wide grid gap-10 lg:grid-cols-[.9fr_1.3fr] lg:gap-20">
+        <div>
+          <p className="eyebrow">05 / A few good questions</p>
+          <h2 className="section-heading mt-5">
+            Wondering
+            <br />
+            about something?
+          </h2>
+          <p className="mt-5 max-w-sm text-sm leading-7 text-muted">
+            A little clarity before the first spark.
+          </p>
+        </div>
+        <div className="divide-y divide-line border-t border-line">
           {faqs.map((faq) => (
-            <details key={faq.question} className="group py-5">
-              <summary className="flex cursor-pointer list-none items-center justify-between font-medium text-ink">
+            <details key={faq.question} className="group py-6">
+              <summary className="flex cursor-pointer items-center justify-between gap-5 text-[15px] font-semibold">
                 <span>{faq.question}</span>
-                <span className="font-mono text-ink-faint transition group-open:rotate-45">
-                  +
-                </span>
+                <Plus size={17} className="shrink-0 text-muted transition group-open:rotate-45" />
               </summary>
-
-              <p className="mt-3 pr-8 text-sm leading-7 text-ink-muted">
-                {faq.answer}
-              </p>
+              <p className="mt-4 pr-8 text-sm leading-7 text-muted">{faq.answer}</p>
             </details>
           ))}
         </div>

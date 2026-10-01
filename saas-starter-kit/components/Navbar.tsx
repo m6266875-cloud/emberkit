@@ -1,118 +1,86 @@
 'use client';
-
-import Link from 'next/link';
+import { useHydrated } from '@/lib/use-hydrated';
 import { useState } from 'react';
+import Link from 'next/link';
+import { ArrowUpRight, Menu, X } from 'lucide-react';
+import Logo from '@/components/Logo';
 import ThemeToggle from '@/components/ThemeToggle';
 
 const links = [
-  { href: '#features', label: 'Features' },
-  { href: '#showcase', label: 'Showcase' },
-  { href: '#pricing', label: 'Pricing' },
-  { href: '#faq', label: 'FAQ' },
+  { href: '/#features', label: 'What’s inside' },
+  { href: '/#workflow', label: 'The workflow' },
+  { href: '/guide', label: 'Documentation' },
 ];
-
 export default function Navbar() {
-  const [mobileOpen, setMobileOpen] = useState(false);
-
+  const hydrated = useHydrated();
+  const [open, setOpen] = useState(false);
   return (
-    <nav className="fixed top-0 z-50 w-full border-b border-ink-border/60 bg-paper/90 backdrop-blur-xl dark:bg-ink/90">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-
-        {/* Logo */}
-        <Link
-          href="/"
-          onClick={() => setMobileOpen(false)}
-          className="flex items-center gap-2.5 font-display text-lg font-semibold tracking-tight"
-        >
-          <span className="flex h-7 w-7 items-center justify-center rounded bg-ember-500 font-mono text-sm font-semibold text-ink">
-            e
-          </span>
-          <span>Emberkit</span>
-        </Link>
-
-        {/* Desktop Navigation */}
-        <div className="hidden items-center gap-8 md:flex">
+    <header className="sticky top-0 z-40 border-b border-line bg-canvas/95 backdrop-blur-lg">
+      <nav
+        aria-label="Main navigation"
+        className="container-wide flex h-20 items-center justify-between gap-4"
+      >
+        <Logo />
+        <div className="hidden items-center gap-7 lg:flex">
           {links.map((link) => (
-            <a
+            <Link
               key={link.href}
               href={link.href}
-              className="font-mono text-[13px] text-ink-muted transition-colors hover:text-ink dark:hover:text-paper"
+              className="text-[13px] font-medium text-muted transition hover:text-foreground"
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </div>
-
-        {/* Desktop Actions */}
-        <div className="hidden items-center gap-5 md:flex">
+        <div className="flex items-center gap-3">
           <ThemeToggle />
-
           <Link
             href="/login"
-            className="text-sm font-medium text-ink-muted transition-colors hover:text-ink dark:hover:text-paper"
+            className="hidden px-2 text-[13px] font-semibold text-muted hover:text-foreground sm:block"
           >
             Log in
           </Link>
-
-          <Link
-            href="/signup"
-            className="rounded bg-ember-500 px-4 py-2 text-sm font-semibold text-ink transition hover:bg-ember-400"
-          >
-            Get Emberkit
+          <Link href="/signup" className="btn-primary hidden min-h-10 px-4 py-2.5 sm:inline-flex">
+            Get started
+            <ArrowUpRight size={15} />
           </Link>
-        </div>
-
-        {/* Mobile Actions */}
-        <div className="flex items-center gap-2 md:hidden">
-          <ThemeToggle />
-
           <button
             type="button"
-            aria-label="Toggle navigation menu"
-            aria-expanded={mobileOpen}
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="flex h-9 w-9 items-center justify-center rounded border border-ink-border text-ink transition hover:bg-ink-surface dark:text-paper dark:hover:bg-ink-surface"
+            disabled={!hydrated}
+            aria-label={open ? 'Close navigation' : 'Open navigation'}
+            aria-expanded={open}
+            aria-controls="mobile-site-nav"
+            className="icon-button lg:hidden"
+            onClick={() => setOpen(!open)}
           >
-            <span className="font-mono text-sm">{mobileOpen ? '×' : '≡'}</span>
+            {open ? <X size={19} /> : <Menu size={19} />}
           </button>
         </div>
-      </div>
-
-      {/* Mobile Menu */}
-      {mobileOpen && (
-        <div className="border-t border-ink-border bg-paper px-6 py-5 dark:bg-ink md:hidden">
+      </nav>
+      {open && (
+        <nav
+          id="mobile-site-nav"
+          aria-label="Mobile navigation"
+          className="border-t border-line px-6 py-4 lg:hidden"
+        >
           <div className="flex flex-col gap-1">
-            {links.map((link) => (
-              <a
+            {[
+              ...links,
+              { href: '/login', label: 'Log in' },
+              { href: '/signup', label: 'Get started →' },
+            ].map((link) => (
+              <Link
                 key={link.href}
                 href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className="rounded px-3 py-3 font-mono text-sm text-ink-muted transition hover:bg-ink-surface hover:text-ink dark:hover:text-paper"
+                onClick={() => setOpen(false)}
+                className="rounded-xl px-3 py-3 text-sm font-medium hover:bg-soft"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
-
-            <div className="my-2 border-t border-ink-border" />
-
-            <Link
-              href="/login"
-              onClick={() => setMobileOpen(false)}
-              className="rounded px-3 py-3 text-sm font-medium text-ink-muted hover:bg-ink-surface"
-            >
-              Log in
-            </Link>
-
-            <Link
-              href="/signup"
-              onClick={() => setMobileOpen(false)}
-              className="mt-1 rounded bg-ember-500 px-3 py-3 text-center text-sm font-semibold text-ink hover:bg-ember-400"
-            >
-              Get Emberkit
-            </Link>
           </div>
-        </div>
+        </nav>
       )}
-    </nav>
+    </header>
   );
 }

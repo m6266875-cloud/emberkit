@@ -1,6 +1,5 @@
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
-import ProductPreview from '@/components/ProductPreview';
 import TechStack from '@/components/TechStack';
 import Features from '@/components/Features';
 import WhyEmberkit from '@/components/WhyEmberkit';
@@ -12,12 +11,10 @@ import Footer from '@/components/Footer';
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-paper text-ink dark:bg-ink dark:text-paper">
+    <>
       <Navbar />
-
-      <main>
+      <main id="main-content">
         <Hero />
-        <ProductPreview />
         <TechStack />
         <Features />
         <WhyEmberkit />
@@ -26,8 +23,7 @@ export default function HomePage() {
         <FAQ />
         <CTA />
       </main>
-
       <Footer />
-    </div>
+    </>
   );
 }

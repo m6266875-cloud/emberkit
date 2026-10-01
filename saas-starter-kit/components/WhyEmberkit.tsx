@@ -1,62 +1,84 @@
+import Link from 'next/link';
+import { ArrowRight, ArrowUpRight, Check, Terminal } from 'lucide-react';
+
+const steps = [
+  {
+    number: '01',
+    title: 'Connect your foundation.',
+    text: 'Create a hosted PostgreSQL database, add your connection URLs, and apply the included migration.',
+  },
+  {
+    number: '02',
+    title: 'Make room for your idea.',
+    text: 'Give the interface your personality. Build on typed models, reusable components, and clear API routes.',
+  },
+  {
+    number: '03',
+    title: 'Get to the good part.',
+    text: 'Create your first account, add a project, and start turning “what if” into something real.',
+  },
+];
 export default function WhyEmberkit() {
   return (
-    <section className="overflow-hidden border-y border-ink-border/60 bg-ink py-24 text-paper">
-      <div className="mx-auto grid max-w-5xl items-center gap-16 px-6 lg:grid-cols-2">
+    <section id="workflow" className="section-space border-y border-line bg-soft/60">
+      <div className="container-wide grid gap-12 lg:grid-cols-2 lg:gap-24">
         <div>
-          <h2 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">
-            Build your product, not your boilerplate.
+          <p className="eyebrow">02 / Less friction, more momentum</p>
+          <h2 className="section-heading mt-5">
+            A shorter path
+            <br />
+            from <span className="text-ember">idea to launch.</span>
           </h2>
-
-          <p className="mt-6 max-w-md leading-7 text-ink-muted">
-            Authentication, database integration, profiles, settings and
-            deployment are already structured for you. Focus on your actual
-            product idea.
+          <p className="mt-6 max-w-sm text-sm leading-7 text-muted">
+            The foundation shouldn’t be the project. Get it connected, make it yours, and spend your
+            energy where it counts.
           </p>
-
-          <div className="mt-9 space-y-4">
-            {[
-              'Clean and customizable architecture',
-              'Modern Next.js App Router',
-              'Supabase authentication and database',
-              'Deployment-ready for Vercel',
-            ].map((item) => (
-              <div key={item} className="flex items-start gap-3">
-                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-ember-500" />
-                <span className="text-sm text-ink-muted">{item}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="relative">
-          <div className="absolute -inset-10 -z-10 rounded-full bg-ember-500/10 blur-[100px]" />
-
-          <div className="rounded-lg border border-ink-border bg-ink-soft p-6">
-            <div className="mb-6 flex items-center justify-between">
-              <span className="font-mono text-xs text-ink-faint">status.json</span>
-              <span className="rounded-full border border-emerald-800/60 bg-emerald-950/40 px-2.5 py-1 font-mono text-[11px] text-emerald-400">
-                production ready
-              </span>
+          <Link href="/guide" className="mt-7 inline-flex items-center gap-2 text-sm font-semibold">
+            Follow the setup guide
+            <ArrowUpRight size={16} />
+          </Link>
+          <div className="mt-9 max-w-md overflow-hidden rounded-xl border border-line bg-surface">
+            <div className="flex items-center gap-2 border-b border-line px-4 py-3 font-mono text-[10px] text-muted">
+              <Terminal size={13} />
+              YOUR FIRST FEW COMMANDS
             </div>
-
-            <div className="space-y-2">
-              {[
-                ['authentication', 'complete'],
-                ['database', 'connected'],
-                ['dashboard', 'ready'],
-                ['profile', 'ready'],
-                ['settings', 'ready'],
-              ].map(([name, status]) => (
-                <div
-                  key={name}
-                  className="flex items-center justify-between rounded border border-ink-border bg-ink px-4 py-3"
-                >
-                  <span className="font-mono text-xs text-ink-muted">{name}</span>
-                  <span className="font-mono text-xs text-emerald-400">{status}</span>
-                </div>
+            <div className="space-y-3 p-5 font-mono text-[11px]">
+              {['npm install', 'npm run db:deploy', 'npm run dev'].map((command) => (
+                <p key={command} className="flex items-center justify-between">
+                  <span>
+                    <span className="mr-3 text-ember">$</span>
+                    {command}
+                  </span>
+                  <Check size={13} className="text-muted" />
+                </p>
               ))}
             </div>
           </div>
+        </div>
+        <div className="self-center">
+          {steps.map((step, index) => (
+            <div
+              key={step.number}
+              className="flex gap-5 border-b border-line py-7 first:pt-0 last:border-b-0 last:pb-0"
+            >
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line bg-surface font-mono text-[11px] text-muted">
+                {step.number}
+              </span>
+              <div>
+                <h3 className="text-lg font-semibold tracking-tight">{step.title}</h3>
+                <p className="mt-2 max-w-sm text-sm leading-7 text-muted">{step.text}</p>
+                {index === 2 && (
+                  <Link
+                    href="/signup"
+                    className="mt-4 inline-flex items-center gap-2 text-xs font-semibold"
+                  >
+                    Let’s get started
+                    <ArrowRight size={14} />
+                  </Link>
+                )}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
